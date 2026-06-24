@@ -51,7 +51,7 @@
             [$user_id ,$nome, $descricao, 'pendente' ,$categoria]
         );
 
-        if ($resInsert === true) {
+        if ($resInsert) {
             http_response_code(200);
             echo json_encode(['success INSERT' => $resInsert]);
         } else {
@@ -66,11 +66,11 @@
         $estado = $_GET['estado'];
 
         $resUpdate = $db->statementDB(
-            "UPDATE tasks SET estado = ? WHERE id = ?",
-            [$estado, $id]
+            "UPDATE tasks SET estado = ?,  updated_at = ? WHERE id = ?",
+            [$estado, date('Y-m-d H:i:s') , $id]
         );
 
-        if ($resUpdate === true) {
+        if ($resUpdate) {
             http_response_code(200);
             echo json_encode(['success UPDATE' => $resUpdate]);
         } else {
@@ -86,7 +86,7 @@
 
         $resDel = $db->statementDB("DELETE FROM tasks WHERE id = ?", [$id]);
 
-        if ($resDel === true) {
+        if ($resDel) {
             http_response_code(200);
             echo json_encode(['success DELETE' => $resDel]);
         } else {
