@@ -1,14 +1,16 @@
 <?php
     include "DataBase.php";
+    include "EnvCors.php";
 
-    loadEnv();
-    loadCors();
+    $EnvCors = new EnvCors();
 
-    $host    = $_ENV['DB_HOST'];
-    $port    = (int) $_ENV['DB_PORT'] ?? 3306;
-    $user    = $_ENV['DB_USER'];
-    $pass    = $_ENV['DB_PASS'];
-    $db_name = $_ENV['DB_NAME'];
+    $EnvCors->loadCors();
+
+    $host    = $EnvCors->getHost();
+    $port    = $EnvCors->getPort();
+    $user    = $EnvCors->getUser();
+    $pass    = $EnvCors->getPass();
+    $db_name = $EnvCors->getDBName();
 
     $db = new DataBase($host, $port, $user, $pass, $db_name);
 
@@ -39,13 +41,14 @@
     //TODO ENDPOINT PARA CRIAR TAREFA
     if (str_ends_with($uri, '/CREATETASK') && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
         //Add param URL
+        $user_id = $_GET['user_id'];
         $nome = $_GET['nome'] ?? null;
         $descricao = $_GET['descricao'] ?? null;
         $categoria = $_GET['categoria'] ?? null;
 
         $resInsert = $db->statementDB(
-            "INSERT INTO tasks (nome, descricao, estado ,categoria) VALUES (?, ?, ?, ?)",
-            [$nome, $descricao, 'pendente' ,$categoria]
+            "INSERT INTO tasks (user_id, nome, descricao, estado ,categoria) VALUES (?, ?, ?, ?, ?)",
+            [$user_id ,$nome, $descricao, 'pendente' ,$categoria]
         );
 
         if ($resInsert === true) {
@@ -89,27 +92,5 @@
         } else {
             http_response_code(500);
             echo json_encode('Erro ao tentar eliminar tarefa');
-        }
-    }
-
-    function loadEnv(): void {
-        foreach (file('.env') as $line) {
-            $line = trim($line);
-            if ($line && !str_starts_with($line, '#')) {
-                [$key, $value] = explode('=', $line, 2);
-                $_ENV[trim($key)] = trim($value);
-            }
-        }
-    }
-
-    function loadCors(): void {
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type');
-        header('Content-Type: application/json');
-
-        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-            http_response_code(200);
-            exit();
         }
     }
