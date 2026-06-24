@@ -17,10 +17,10 @@
 
     //TODO ENDPOINT PARA CRIAR USER
     if (str_ends_with($uri, '/CreateUser') && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
-        //ADD PARAM URL
-        $username = $_GET['username'];
-        $email = $_GET['email'];
-        $pass = $_GET['password'];
+        $input = json_decode(file_get_contents('php://input'), true);
+        $username = $input['username'] ?? null;
+        $email = $input['email'] ?? null;
+        $pass = $input['password'] ?? null;
 
         //CHECK IF EMAIL
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -41,5 +41,50 @@
         } else {
             http_response_code(500);
             echo json_encode(['Error' => $resUserInsert]);
+        }
+        exit;
+    }
+
+    //TODO ENDPOINT LOGIN
+    if (str_ends_with($uri, '/LoginUser') && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $emailOrUsername = $input['username'] ?? null;
+        $pass = $input['password'] ?? null;
+
+        $resLog = $db->statementDB(
+            "SELECT id, username, email, password FROM users WHERE username = ? OR email = ?",
+            [$emailOrUsername, $emailOrUsername]
+        );
+
+        if (!empty($resLog) && count($resLog) > 0) {
+            $user = $resLog[0];
+
+            if (hash('sha256', $pass) === $user['password']) {
+                $loginOk = true;
+            } else {
+                $loginOk = false;
+            }
+
+            if ($loginOk) {
+                http_response_code(200);
+                echo json_encode([
+                    'Success' => true,
+                    'Message' => 'Login efetuado com sucesso.',
+                    'User' => [
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                        'email' => $user['email']
+                    ]
+                ]);
+                exit;
+            } else {
+                http_response_code(401);
+                echo json_encode(['Error' => 'Crendenciais inválidas']);
+                exit;
+            }
+        } else {
+            http_response_code(401);
+            echo json_encode(['Error' => 'Utilizador não encontrado']);
+            exit;
         }
     }

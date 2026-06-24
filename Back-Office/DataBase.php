@@ -38,20 +38,30 @@ class DataBase {
         $this->connDB();
         $this->conn->query("USE {$this->db}");
 
-        //Preparar statement
         $stmt = $this->conn->prepare($statement);
 
         if ($stmt === false)
             return false;
+
         if (!empty($params)) {
             $type = str_repeat('s', count($params));
             $stmt->bind_param($type, ...$params);
         }
 
-        $result = $stmt->execute(); //EXEC statement
+        $executeSuccess = $stmt->execute();
+
+        if (!$executeSuccess) {
+            $stmt->close();
+            return false;
+        }
 
         if (str_starts_with(strtoupper($statement), 'SELECT')) {
-            $result = $stmt->get_result();
+            $mysqli_result = $stmt->get_result();
+            $result = $mysqli_result->fetch_all(MYSQLI_ASSOC);
+
+            $mysqli_result->free();
+        } else {
+            $result = true;
         }
 
         $stmt->close();
