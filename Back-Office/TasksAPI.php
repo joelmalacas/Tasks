@@ -29,12 +29,17 @@
     if (str_ends_with($uri, '/TASKS')) {
         $res = $db->statementDB("SELECT id,nome,descricao,estado,created_at, updated_at, categoria FROM tasks");
 
-        if ($res instanceof mysqli_result) {
-            $tasks = $res->fetch_all(MYSQLI_ASSOC);
-            echo json_encode($tasks);
+        if (is_array($res)) {
+            echo json_encode($res);
         } else {
             http_response_code(500);
-            echo json_encode('Erro ao tentar obter as tarefas');
+            //echo json_encode('Erro ao tentar obter as tarefas');
+            echo json_encode([
+                'erro' => 'Erro ao tentar obter as tarefas',
+                'db_error' => $db->conn->error,       // erro do mysqli
+                'res_type' => gettype($res),           // o que veio no $res
+                'res_value' => var_export($res, true)  // valor exato
+            ]);
         }
     }
 

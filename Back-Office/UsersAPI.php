@@ -31,8 +31,8 @@
 
         $Hashpass = hash('sha256', $pass); //Encode password to sha-256 (64 char)
 
-        $resUserInsert = $db->statementDB("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-            [$username, $email, $Hashpass]
+        $resUserInsert = $db->statementDB("INSERT INTO users (username, email, password, estado) VALUES (?, ?, ?, ?)",
+            [$username, $email, $Hashpass, 'Offline']
         );
 
         if ($resUserInsert) {
