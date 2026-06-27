@@ -27,7 +27,15 @@
 
     //TODO ENDPOINT PARA LISTAR TAREFA
     if (str_ends_with($uri, '/TASKS')) {
-        $res = $db->statementDB("SELECT id,nome,descricao,estado,created_at, updated_at, categoria FROM tasks");
+        $user_id = $_GET['user_id'];
+
+        if (!$user_id) {
+            http_response_code(400);
+            echo json_encode('User ID Not Found');
+            exit;
+        }
+
+        $res = $db->statementDB("SELECT id,nome,descricao,estado,created_at, updated_at, categoria FROM tasks WHERE user_id  = ?", [$user_id]);
 
         if (is_array($res)) {
             echo json_encode($res);

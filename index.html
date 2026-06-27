@@ -31,20 +31,137 @@
         }
 
         html, body { height: 100%; }
-
-        body {
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--text);
-        }
-
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); }
         #root { min-height: 100vh; }
 
+        /* ── LOGIN ─────────────────────────────────── */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: radial-gradient(ellipse at 60% 20%, rgba(99,102,241,0.12) 0%, transparent 60%),
+            radial-gradient(ellipse at 20% 80%, rgba(167,139,250,0.08) 0%, transparent 50%),
+            var(--bg);
+        }
+
+        .login-card {
+            background: var(--surface);
+            border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 20px;
+            padding: 40px 36px;
+            width: 100%;
+            max-width: 400px;
+            animation: slideUp 0.3s ease;
+        }
+
+        .login-logo {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366F1, #A78BFA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .login-sub {
+            text-align: center;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--muted);
+            margin-bottom: 7px;
+        }
+
+        .input-wrap { position: relative; }
+
+        .input-wrap i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 17px;
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: var(--rad-sm);
+            padding: 11px 13px 11px 40px;
+            font-size: 14px;
+            font-family: var(--font-body);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+        }
+
+        .form-input::placeholder { color: var(--muted); }
+
+        .btn-login {
+            width: 100%;
+            padding: 13px;
+            background: var(--accent);
+            border: none;
+            color: white;
+            border-radius: var(--rad-sm);
+            font-size: 15px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-login:hover:not(:disabled) { background: #5558E6; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(99,102,241,0.3); }
+        .btn-login:active { transform: translateY(0); }
+        .btn-login:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .login-error {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            padding: 10px 14px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.2);
+            border-radius: var(--rad-sm);
+            font-size: 13px;
+            color: #F87171;
+            animation: fadeIn 0.2s ease;
+        }
+
+        /* ── HEADER ─────────────────────────────────── */
         .app-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px 28px 16px;
+            padding: 16px 28px;
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -55,44 +172,83 @@
 
         .app-title {
             font-family: var(--font-display);
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             background: linear-gradient(135deg, #6366F1, #A78BFA);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.5px;
         }
 
-        .header-stats {
+        .header-right {
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
         }
+
+        .header-stats { display: flex; gap: 10px; flex-wrap: wrap; }
 
         .stat-pill {
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 12px;
+            padding: 5px 11px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--muted);
         }
 
-        .stat-pill .dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
+        .stat-pill .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
         .dot-all { background: var(--accent); }
         .dot-done { background: var(--success); }
         .dot-pending { background: var(--warn); }
         .stat-pill strong { color: var(--text); font-weight: 600; }
 
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .user-avatar {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366F1, #A78BFA);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .btn-logout {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            border-radius: var(--rad-sm);
+            font-size: 13px;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.2); color: #F87171; }
+
+        /* ── BODY ─────────────────────────────────── */
         .app-body {
             padding: 24px 28px;
             max-width: 900px;
@@ -106,20 +262,8 @@
             flex-wrap: wrap;
         }
 
-        .search-wrap {
-            flex: 1;
-            min-width: 180px;
-            position: relative;
-        }
-
-        .search-wrap i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--muted);
-            font-size: 16px;
-        }
+        .search-wrap { flex: 1; min-width: 180px; position: relative; }
+        .search-wrap i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 16px; }
 
         .search-input {
             width: 100%;
@@ -171,13 +315,9 @@
         }
 
         .btn-new:hover { background: #5558E6; transform: translateY(-1px); }
-        .btn-new:active { transform: translateY(0); }
 
-        .task-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        /* ── TASK CARDS ─────────────────────────────── */
+        .task-list { display: flex; flex-direction: column; gap: 10px; }
 
         .task-card {
             display: flex;
@@ -203,16 +343,11 @@
             transition: opacity 0.2s;
         }
 
-        .task-card.done::before { background: var(--success); opacity: 0.8; }
-        .task-card.cancelled::before { background: var(--danger); opacity: 0.8; }
-        .task-card.in-progress::before { background: var(--warn); opacity: 0.8; }
+        .task-card.done::before       { background: var(--success); opacity: 0.8; }
+        .task-card.cancelled::before  { background: var(--danger);  opacity: 0.8; }
+        .task-card.in-progress::before{ background: var(--warn);    opacity: 0.8; }
 
-        .task-card:hover {
-            border-color: rgba(99,102,241,0.25);
-            transform: translateY(-1px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-        }
-
+        .task-card:hover { border-color: rgba(99,102,241,0.25); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
         .task-card:hover::before { opacity: 1; }
 
         .check-btn {
@@ -241,13 +376,9 @@
             font-weight: 600;
             color: var(--text);
             margin-bottom: 4px;
-            transition: color 0.2s;
         }
 
-        .task-card.done .task-name {
-            text-decoration: line-through;
-            color: var(--muted);
-        }
+        .task-card.done .task-name { text-decoration: line-through; color: var(--muted); }
 
         .task-desc {
             font-size: 13px;
@@ -259,17 +390,11 @@
             white-space: nowrap;
         }
 
-        .task-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .task-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
         .badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
             padding: 3px 9px;
             border-radius: 20px;
             font-size: 11px;
@@ -278,10 +403,10 @@
             text-transform: uppercase;
         }
 
-        .badge-pending  { background: rgba(245,158,11,0.15); color: #FBBF24; border: 1px solid rgba(245,158,11,0.2); }
-        .badge-done     { background: rgba(34,197,94,0.12);  color: #4ADE80; border: 1px solid rgba(34,197,94,0.2); }
-        .badge-cancelled{ background: rgba(239,68,68,0.12);  color: #F87171; border: 1px solid rgba(239,68,68,0.2); }
-        .badge-progress { background: rgba(99,102,241,0.15); color: #818CF8; border: 1px solid rgba(99,102,241,0.2); }
+        .badge-pending   { background: rgba(245,158,11,0.15); color: #FBBF24; border: 1px solid rgba(245,158,11,0.2); }
+        .badge-done      { background: rgba(34,197,94,0.12);  color: #4ADE80; border: 1px solid rgba(34,197,94,0.2); }
+        .badge-cancelled { background: rgba(239,68,68,0.12);  color: #F87171; border: 1px solid rgba(239,68,68,0.2); }
+        .badge-progress  { background: rgba(99,102,241,0.15); color: #818CF8; border: 1px solid rgba(99,102,241,0.2); }
 
         .cat-badge {
             padding: 3px 9px;
@@ -293,11 +418,7 @@
             border: 1px solid var(--border);
         }
 
-        .task-date {
-            font-size: 11px;
-            color: var(--muted);
-            margin-left: auto;
-        }
+        .task-date { font-size: 11px; color: var(--muted); margin-left: auto; }
 
         .task-actions {
             display: flex;
@@ -338,37 +459,7 @@
             outline: none;
         }
 
-        .status-select:focus { border-color: var(--accent); }
-
-        .empty-state {
-            text-align: center;
-            padding: 64px 24px;
-            color: var(--muted);
-        }
-
-        .empty-state i { font-size: 48px; display: block; margin-bottom: 14px; opacity: 0.5; }
-        .empty-state p { font-size: 16px; margin-bottom: 4px; }
-        .empty-state span { font-size: 13px; }
-
-        .loading-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            padding: 60px;
-            color: var(--muted);
-        }
-
-        .spinner {
-            width: 36px; height: 36px;
-            border: 2px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
+        /* ── MODALS ─────────────────────────────────── */
         .overlay {
             position: fixed;
             inset: 0;
@@ -381,8 +472,6 @@
             animation: fadeIn 0.15s ease;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } }
-
         .modal {
             background: var(--surface);
             border: 1px solid rgba(99,102,241,0.25);
@@ -393,8 +482,6 @@
             animation: slideUp 0.2s ease;
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(18px); } }
-
         .modal-title {
             font-family: var(--font-display);
             font-size: 20px;
@@ -403,9 +490,9 @@
             color: var(--text);
         }
 
-        .form-group { margin-bottom: 16px; }
+        .form-group-modal { margin-bottom: 16px; }
 
-        .form-label {
+        .form-label-modal {
             display: block;
             font-size: 11px;
             font-weight: 600;
@@ -415,7 +502,7 @@
             margin-bottom: 7px;
         }
 
-        .form-input, .form-textarea {
+        .form-input-modal, .form-textarea-modal {
             width: 100%;
             background: var(--bg);
             border: 1px solid var(--border);
@@ -428,19 +515,14 @@
             transition: border-color 0.2s;
         }
 
-        .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
-        .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
-        .form-textarea { resize: vertical; min-height: 82px; }
+        .form-input-modal:focus, .form-textarea-modal:focus { border-color: var(--accent); }
+        .form-input-modal::placeholder, .form-textarea-modal::placeholder { color: var(--muted); }
+        .form-textarea-modal { resize: vertical; min-height: 82px; }
 
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 26px;
-        }
+        .modal-actions { display: flex; gap: 10px; margin-top: 26px; }
 
         .btn-cancel {
-            flex: 1;
-            padding: 11px;
+            flex: 1; padding: 11px;
             background: transparent;
             border: 1px solid var(--border);
             color: var(--muted);
@@ -454,8 +536,7 @@
         .btn-cancel:hover { background: var(--surface2); color: var(--text); }
 
         .btn-submit {
-            flex: 2;
-            padding: 11px;
+            flex: 2; padding: 11px;
             background: var(--accent);
             border: none;
             color: white;
@@ -470,15 +551,25 @@
         .btn-submit:hover { background: #5558E6; }
         .btn-submit:disabled { opacity: 0.45; cursor: not-allowed; }
 
-        .toast-wrap {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 200;
+        /* ── MISC ─────────────────────────────────── */
+        .empty-state { text-align: center; padding: 64px 24px; color: var(--muted); }
+        .empty-state i { font-size: 48px; display: block; margin-bottom: 14px; opacity: 0.5; }
+        .empty-state p { font-size: 16px; margin-bottom: 4px; }
+        .empty-state span { font-size: 13px; }
+
+        .loading-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 60px; color: var(--muted); }
+
+        .spinner {
+            width: 36px; height: 36px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
         }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .toast-wrap { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 200; }
 
         .toast {
             display: flex;
@@ -499,38 +590,26 @@
         .toast.success { border-left: 3px solid var(--success); }
         .toast.error   { border-left: 3px solid var(--danger); }
 
+        .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; padding-left: 2px; }
+
+        @keyframes fadeIn  { from { opacity: 0; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(18px); } }
         @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } }
 
-        .section-label {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--muted);
-            margin-bottom: 12px;
-            padding-left: 2px;
-        }
-
         @media (max-width: 600px) {
-            .app-header { flex-direction: column; align-items: flex-start; gap: 14px; padding: 16px 18px; }
-            .app-body { padding: 18px; }
-            .header-stats { gap: 8px; }
+            .app-header { flex-wrap: wrap; gap: 12px; padding: 14px 16px; }
+            .header-stats { display: none; }
+            .app-body { padding: 16px; }
             .toolbar { flex-direction: column; }
             .search-wrap { min-width: 100%; }
             .task-actions { opacity: 1; }
             .task-date { display: none; }
-            .filter-btn { font-size: 12px; padding: 8px 10px; }
+            .login-card { padding: 28px 20px; }
         }
     </style>
 </head>
 <body>
-
-<div id="root">
-    <div class="loading-wrap">
-        <div class="spinner"></div>
-        <span style="font-size:14px">A carregar...</span>
-    </div>
-</div>
+<div id="root"></div>
 <div class="toast-wrap" id="toasts"></div>
 
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -538,6 +617,10 @@
 <script>
     const { useState, useEffect, useCallback } = React;
 
+    const API_USERS = 'http://localhost:8080';
+    const API_TASKS = 'http://localhost:8000';
+
+    // ── TOAST ──────────────────────────────────────────────────────────
     function showToast(msg, type = 'success') {
         const wrap = document.getElementById('toasts');
         const el = document.createElement('div');
@@ -546,10 +629,11 @@
         const color = type === 'success' ? '#22C55E' : '#EF4444';
         el.innerHTML = `<i class="ti ${icon}" style="color:${color};font-size:16px"></i><span>${msg}</span>`;
         wrap.appendChild(el);
-        setTimeout(() => el.style.opacity = '0', 2500);
-        setTimeout(() => el.remove(), 3000);
+        setTimeout(() => el.style.opacity = '0', 2800);
+        setTimeout(() => el.remove(), 3300);
     }
 
+    // ── CONSTANTS ──────────────────────────────────────────────────────
     const STATUS_MAP = {
         'pendente':     { label: 'Pendente',     cls: 'badge-pending',  cardCls: '' },
         'em progresso': { label: 'Em progresso', cls: 'badge-progress', cardCls: 'in-progress' },
@@ -563,17 +647,102 @@
         catch { return ''; }
     }
 
+    // ── LOGIN PAGE ─────────────────────────────────────────────────────
+    function LoginPage({ onLogin }) {
+        const [username, setUsername] = useState('');
+        const [password, setPassword] = useState('');
+        const [loading, setLoading]   = useState(false);
+        const [error, setError]       = useState('');
+
+        const submit = async () => {
+            if (!username.trim() || !password.trim()) return;
+            setLoading(true);
+            setError('');
+            try {
+                const r = await fetch(`${API_USERS}/LoginUser`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await r.json();
+                if (r.ok && data.Success) {
+                    sessionStorage.setItem('user', JSON.stringify(data.User));
+                    onLogin(data.User);
+                } else {
+                    setError(data.Error || 'Credenciais inválidas');
+                }
+            } catch {
+                setError('Sem ligação ao servidor. Verifica se o servidor está ativo.');
+            }
+            setLoading(false);
+        };
+
+        const onKey = e => e.key === 'Enter' && submit();
+
+        return React.createElement('div', { className: 'login-page' },
+            React.createElement('div', { className: 'login-card' },
+                React.createElement('div', { className: 'login-logo' }, '⬡ TaskFlow'),
+                React.createElement('p', { className: 'login-sub' }, 'Inicia sessão para gerir as tuas tarefas'),
+                React.createElement('div', { className: 'form-group' },
+                    React.createElement('label', { className: 'form-label' }, 'Utilizador ou Email'),
+                    React.createElement('div', { className: 'input-wrap' },
+                        React.createElement('i', { className: 'ti ti-user' }),
+                        React.createElement('input', {
+                            className: 'form-input',
+                            placeholder: 'O teu username ou email',
+                            value: username,
+                            onChange: e => setUsername(e.target.value),
+                            onKeyDown: onKey,
+                            autoFocus: true,
+                            autoComplete: 'username'
+                        })
+                    )
+                ),
+                React.createElement('div', { className: 'form-group' },
+                    React.createElement('label', { className: 'form-label' }, 'Password'),
+                    React.createElement('div', { className: 'input-wrap' },
+                        React.createElement('i', { className: 'ti ti-lock' }),
+                        React.createElement('input', {
+                            className: 'form-input',
+                            type: 'password',
+                            placeholder: '••••••••',
+                            value: password,
+                            onChange: e => setPassword(e.target.value),
+                            onKeyDown: onKey,
+                            autoComplete: 'current-password'
+                        })
+                    )
+                ),
+                error && React.createElement('div', { className: 'login-error' },
+                    React.createElement('i', { className: 'ti ti-alert-circle', style: { fontSize: '16px', flexShrink: 0 } }),
+                    error
+                ),
+                React.createElement('button', {
+                        className: 'btn-login',
+                        onClick: submit,
+                        disabled: !username.trim() || !password.trim() || loading
+                    },
+                    loading
+                        ? React.createElement(React.Fragment, null, React.createElement('div', { className: 'spinner', style: { width: '18px', height: '18px', borderWidth: '2px' } }), 'A entrar...')
+                        : React.createElement(React.Fragment, null, React.createElement('i', { className: 'ti ti-login' }), 'Entrar')
+                )
+            )
+        );
+    }
+
+    // ── TASK CARD ──────────────────────────────────────────────────────
     function TaskCard({ task, onDelete, onStatusChange }) {
         const estado = task.estado?.toLowerCase() || 'pendente';
         const s = STATUS_MAP[estado] || STATUS_MAP['pendente'];
         const isDone = estado === 'concluido';
 
-        const toggleDone = () => onStatusChange(task.id, isDone ? 'pendente' : 'concluido');
-
         return React.createElement('div', { className: `task-card ${s.cardCls}` },
-            React.createElement('button', { className: 'check-btn', onClick: toggleDone, title: isDone ? 'Marcar pendente' : 'Marcar concluído' },
-                isDone ? React.createElement('i', { className: 'ti ti-check' }) : null
-            ),
+            React.createElement('button', {
+                className: 'check-btn',
+                onClick: () => onStatusChange(task.id, isDone ? 'pendente' : 'concluido'),
+                title: isDone ? 'Marcar pendente' : 'Marcar concluído'
+            }, isDone ? React.createElement('i', { className: 'ti ti-check' }) : null),
+
             React.createElement('div', { className: 'task-content' },
                 React.createElement('div', { className: 'task-name' }, task.nome),
                 task.descricao && React.createElement('div', { className: 'task-desc' }, task.descricao),
@@ -587,8 +756,7 @@
                 React.createElement('select', {
                         className: 'status-select',
                         value: estado,
-                        onChange: e => onStatusChange(task.id, e.target.value),
-                        title: 'Mudar estado'
+                        onChange: e => onStatusChange(task.id, e.target.value)
                     },
                     Object.keys(STATUS_MAP).map(k =>
                         React.createElement('option', { key: k, value: k }, STATUS_MAP[k].label)
@@ -597,50 +765,45 @@
                 React.createElement('button', {
                     className: 'action-btn danger',
                     onClick: () => onDelete(task.id),
-                    title: 'Eliminar tarefa'
+                    title: 'Eliminar'
                 }, React.createElement('i', { className: 'ti ti-trash' }))
             )
         );
     }
 
-    function NewTaskModal({ onClose, onCreated }) {
-        const [nome, setNome] = useState('');
-        const [desc, setDesc] = useState('');
-        const [cat, setCat]   = useState('');
+    // ── NEW TASK MODAL ─────────────────────────────────────────────────
+    function NewTaskModal({ userId, onClose, onCreated }) {
+        const [nome, setNome]   = useState('');
+        const [desc, setDesc]   = useState('');
+        const [cat, setCat]     = useState('');
         const [loading, setLoading] = useState(false);
-        const URL = "http://localhost:8000";
 
         const submit = async () => {
             if (!nome.trim()) return;
             setLoading(true);
             try {
-                const params = new URLSearchParams({ nome, descricao: desc, categoria: cat });
-                const r = await fetch(`${URL}/CREATETASK?${params}`, { method: 'POST' });
+                const params = new URLSearchParams({ user_id: userId, nome, descricao: desc, categoria: cat });
+                const r = await fetch(`${API_TASKS}/CREATETASK?${params}`, { method: 'POST' });
                 if (r.ok) { showToast('Tarefa criada!'); onCreated(); }
                 else showToast('Erro ao criar tarefa', 'error');
             } catch { showToast('Sem ligação ao servidor', 'error'); }
             setLoading(false);
         };
 
-        const onKey = e => e.key === 'Enter' && !e.shiftKey && submit();
-
-        return React.createElement('div', {
-                className: 'overlay',
-                onClick: e => e.target === e.currentTarget && onClose()
-            },
+        return React.createElement('div', { className: 'overlay', onClick: e => e.target === e.currentTarget && onClose() },
             React.createElement('div', { className: 'modal' },
                 React.createElement('h2', { className: 'modal-title' }, '✦ Nova tarefa'),
-                React.createElement('div', { className: 'form-group' },
-                    React.createElement('label', { className: 'form-label' }, 'Nome *'),
-                    React.createElement('input', { className: 'form-input', placeholder: 'Ex: Reunião com cliente', value: nome, onChange: e => setNome(e.target.value), onKeyDown: onKey, autoFocus: true })
+                React.createElement('div', { className: 'form-group-modal' },
+                    React.createElement('label', { className: 'form-label-modal' }, 'Nome *'),
+                    React.createElement('input', { className: 'form-input-modal', placeholder: 'Ex: Reunião com cliente', value: nome, onChange: e => setNome(e.target.value), autoFocus: true })
                 ),
-                React.createElement('div', { className: 'form-group' },
-                    React.createElement('label', { className: 'form-label' }, 'Descrição'),
-                    React.createElement('textarea', { className: 'form-textarea', placeholder: 'Detalhes adicionais...', value: desc, onChange: e => setDesc(e.target.value) })
+                React.createElement('div', { className: 'form-group-modal' },
+                    React.createElement('label', { className: 'form-label-modal' }, 'Descrição'),
+                    React.createElement('textarea', { className: 'form-textarea-modal', placeholder: 'Detalhes adicionais...', value: desc, onChange: e => setDesc(e.target.value) })
                 ),
-                React.createElement('div', { className: 'form-group' },
-                    React.createElement('label', { className: 'form-label' }, 'Categoria'),
-                    React.createElement('input', { className: 'form-input', placeholder: 'Ex: Trabalho, Pessoal, Urgente...', value: cat, onChange: e => setCat(e.target.value), onKeyDown: onKey })
+                React.createElement('div', { className: 'form-group-modal' },
+                    React.createElement('label', { className: 'form-label-modal' }, 'Categoria'),
+                    React.createElement('input', { className: 'form-input-modal', placeholder: 'Ex: Trabalho, Pessoal, Urgente...', value: cat, onChange: e => setCat(e.target.value) })
                 ),
                 React.createElement('div', { className: 'modal-actions' },
                     React.createElement('button', { className: 'btn-cancel', onClick: onClose }, 'Cancelar'),
@@ -652,18 +815,22 @@
         );
     }
 
+    // ── MAIN APP ───────────────────────────────────────────────────────
     function App() {
+        const [user, setUser]         = useState(() => {
+            try { return JSON.parse(sessionStorage.getItem('user')); } catch { return null; }
+        });
         const [tasks, setTasks]       = useState([]);
-        const [loading, setLoading]   = useState(true);
+        const [loading, setLoading]   = useState(false);
         const [filter, setFilter]     = useState('todas');
         const [search, setSearch]     = useState('');
         const [showModal, setShowModal] = useState(false);
-        const URL = "http://localhost:8000";
 
         const fetchTasks = useCallback(async () => {
+            if (!user) return;
             setLoading(true);
             try {
-                const r = await fetch(URL + '/TASKS');
+                const r = await fetch(`${API_TASKS}/TASKS?user_id=${user.id}`);
                 const data = await r.json();
                 setTasks(Array.isArray(data) ? data : []);
             } catch {
@@ -671,14 +838,22 @@
                 setTasks([]);
             }
             setLoading(false);
-        }, []);
+        }, [user]);
 
         useEffect(() => { fetchTasks(); }, [fetchTasks]);
+
+        const handleLogin = u => setUser(u);
+
+        const handleLogout = () => {
+            sessionStorage.removeItem('user');
+            setUser(null);
+            setTasks([]);
+        };
 
         const handleDelete = async id => {
             if (!confirm('Eliminar esta tarefa?')) return;
             try {
-                const r = await fetch(`${URL}/DELETETASK?id=${id}`, { method: 'DELETE' });
+                const r = await fetch(`${API_TASKS}/DELETETASK?id=${id}`, { method: 'DELETE' });
                 if (r.ok) { showToast('Tarefa eliminada'); setTasks(t => t.filter(x => x.id !== id)); }
                 else showToast('Erro ao eliminar', 'error');
             } catch { showToast('Sem ligação', 'error'); }
@@ -686,12 +861,16 @@
 
         const handleStatusChange = async (id, estado) => {
             try {
-                const r = await fetch(`${URL}/UPDATETASK?id=${id}&estado=${encodeURIComponent(estado)}`, { method: 'PUT' });
+                const r = await fetch(`${API_TASKS}/UPDATETASK?id=${id}&estado=${encodeURIComponent(estado)}`, { method: 'PUT' });
                 if (r.ok) { showToast('Estado atualizado'); setTasks(t => t.map(x => x.id === id ? { ...x, estado } : x)); }
                 else showToast('Erro ao atualizar', 'error');
             } catch { showToast('Sem ligação', 'error'); }
         };
 
+        // ── RENDER LOGIN ──
+        if (!user) return React.createElement(LoginPage, { onLogin: handleLogin });
+
+        // ── FILTER ──
         const filtered = tasks.filter(t => {
             const matchFilter = filter === 'todas' || t.estado?.toLowerCase() === filter;
             const q = search.toLowerCase();
@@ -700,68 +879,80 @@
         });
 
         const counts = {
-            todas:    tasks.length,
+            todas:     tasks.length,
             concluido: tasks.filter(t => t.estado?.toLowerCase() === 'concluido').length,
             pendente:  tasks.filter(t => !t.estado || t.estado.toLowerCase() === 'pendente').length,
         };
 
+        const initial = (user.username || '?')[0].toUpperCase();
+
         return React.createElement(React.Fragment, null,
-            React.createElement('div', { id: 'app' },
-                React.createElement('header', { className: 'app-header' },
-                    React.createElement('span', { className: 'app-title' }, '⬡ TaskFlow'),
-                    React.createElement('div', { className: 'header-stats' },
-                        React.createElement('div', { className: 'stat-pill' }, React.createElement('span', { className: 'dot dot-all' }), React.createElement('strong', null, counts.todas), ' tarefas'),
-                        React.createElement('div', { className: 'stat-pill' }, React.createElement('span', { className: 'dot dot-done' }), React.createElement('strong', null, counts.concluido), ' concluídas'),
-                        React.createElement('div', { className: 'stat-pill' }, React.createElement('span', { className: 'dot dot-pending' }), React.createElement('strong', null, counts.pendente), ' pendentes')
-                    )
+            // HEADER
+            React.createElement('header', { className: 'app-header' },
+                React.createElement('span', { className: 'app-title' }, '⬡ TaskFlow'),
+                React.createElement('div', { className: 'header-stats' },
+                    React.createElement('div', { className: 'stat-pill' }, React.createElement('span', { className: 'dot dot-all' }), React.createElement('strong', null, counts.todas), '\u00a0tarefas'),
+                    React.createElement('div', { className: 'stat-pill' }, React.createElement('span', { className: 'dot dot-done' }), React.createElement('strong', null, counts.concluido), '\u00a0concluídas'),
+                    React.createElement('div', { className: 'stat-pill' }, React.createElement('span', { className: 'dot dot-pending' }), React.createElement('strong', null, counts.pendente), '\u00a0pendentes')
                 ),
-                React.createElement('main', { className: 'app-body' },
-                    React.createElement('div', { className: 'toolbar' },
-                        React.createElement('div', { className: 'search-wrap' },
-                            React.createElement('i', { className: 'ti ti-search' }),
-                            React.createElement('input', { type: 'text', className: 'search-input', placeholder: 'Pesquisar tarefas...', value: search, onChange: e => setSearch(e.target.value) })
-                        ),
-                        ['todas', 'pendente', 'em progresso', 'concluido', 'cancelado'].map(f =>
-                            React.createElement('button', { key: f, className: `filter-btn ${filter === f ? 'active' : ''}`, onClick: () => setFilter(f) },
-                                f === 'todas' ? 'Todas' : STATUS_MAP[f]?.label
-                            )
-                        ),
-                        React.createElement('button', { className: 'btn-new', onClick: () => setShowModal(true) },
-                            React.createElement('i', { className: 'ti ti-plus' }), 'Nova tarefa'
-                        )
+                React.createElement('div', { className: 'header-right' },
+                    React.createElement('div', { className: 'user-pill' },
+                        React.createElement('div', { className: 'user-avatar' }, initial),
+                        user.username
                     ),
-                    loading
-                        ? React.createElement('div', { className: 'loading-wrap' },
-                            React.createElement('div', { className: 'spinner' }),
-                            React.createElement('span', { style: { fontSize: '14px' } }, 'A carregar tarefas...')
-                        )
-                        : filtered.length === 0
-                            ? React.createElement('div', { className: 'empty-state' },
-                                React.createElement('i', { className: 'ti ti-clipboard-list' }),
-                                React.createElement('p', null, search ? 'Nenhuma tarefa encontrada' : 'Nenhuma tarefa ainda'),
-                                React.createElement('span', null, search ? 'Tenta uma pesquisa diferente' : 'Cria a tua primeira tarefa acima')
-                            )
-                            : React.createElement('div', null,
-                                React.createElement('p', { className: 'section-label' }, `${filtered.length} tarefa${filtered.length !== 1 ? 's' : ''}`),
-                                React.createElement('div', { className: 'task-list' },
-                                    filtered.map(t =>
-                                        React.createElement(TaskCard, { key: t.id, task: t, onDelete: handleDelete, onStatusChange: handleStatusChange })
-                                    )
-                                )
-                            )
+                    React.createElement('button', { className: 'btn-logout', onClick: handleLogout, title: 'Terminar sessão' },
+                        React.createElement('i', { className: 'ti ti-logout' }), 'Sair'
+                    )
                 )
             ),
+
+            // BODY
+            React.createElement('main', { className: 'app-body' },
+                React.createElement('div', { className: 'toolbar' },
+                    React.createElement('div', { className: 'search-wrap' },
+                        React.createElement('i', { className: 'ti ti-search' }),
+                        React.createElement('input', { type: 'text', className: 'search-input', placeholder: 'Pesquisar tarefas...', value: search, onChange: e => setSearch(e.target.value) })
+                    ),
+                    ['todas', 'pendente', 'em progresso', 'concluido', 'cancelado'].map(f =>
+                        React.createElement('button', { key: f, className: `filter-btn ${filter === f ? 'active' : ''}`, onClick: () => setFilter(f) },
+                            f === 'todas' ? 'Todas' : STATUS_MAP[f]?.label
+                        )
+                    ),
+                    React.createElement('button', { className: 'btn-new', onClick: () => setShowModal(true) },
+                        React.createElement('i', { className: 'ti ti-plus' }), 'Nova tarefa'
+                    )
+                ),
+
+                loading
+                    ? React.createElement('div', { className: 'loading-wrap' },
+                        React.createElement('div', { className: 'spinner' }),
+                        React.createElement('span', { style: { fontSize: '14px' } }, 'A carregar tarefas...')
+                    )
+                    : filtered.length === 0
+                        ? React.createElement('div', { className: 'empty-state' },
+                            React.createElement('i', { className: 'ti ti-clipboard-list' }),
+                            React.createElement('p', null, search ? 'Nenhuma tarefa encontrada' : 'Ainda não tens tarefas'),
+                            React.createElement('span', null, search ? 'Tenta uma pesquisa diferente' : 'Cria a tua primeira tarefa acima')
+                        )
+                        : React.createElement('div', null,
+                            React.createElement('p', { className: 'section-label' }, `${filtered.length} tarefa${filtered.length !== 1 ? 's' : ''}`),
+                            React.createElement('div', { className: 'task-list' },
+                                filtered.map(t =>
+                                    React.createElement(TaskCard, { key: t.id, task: t, onDelete: handleDelete, onStatusChange: handleStatusChange })
+                                )
+                            )
+                        )
+            ),
+
             showModal && React.createElement(NewTaskModal, {
+                userId: user.id,
                 onClose: () => setShowModal(false),
                 onCreated: () => { setShowModal(false); fetchTasks(); }
             })
         );
     }
 
-    const existingRoot = document.getElementById('root');
-    existingRoot.innerHTML = '';
-    const appRoot = ReactDOM.createRoot(existingRoot);
-    appRoot.render(React.createElement(App));
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
 </script>
 </body>
 </html>
