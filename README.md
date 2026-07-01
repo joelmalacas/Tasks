@@ -10,6 +10,7 @@ REST API desenvolvida em PHP para gestão de tarefas e autenticação de utiliza
 ├── TasksAPI.php        # Endpoints de tarefas (Tasks)
 ├── UsersAPI.php        # Endpoints de utilizadores (Auth)
 ├── DataBase.php     # Classe de ligação e queries à base de dados
+├── Auth.php         # Classe para criar e validar tokens
 └── EnvCors.php      # Configuração de ambiente e CORS
 ```
 
