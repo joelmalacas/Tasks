@@ -48,7 +48,7 @@
             //echo json_encode('Erro ao tentar obter as tarefas');
             echo json_encode([
                 'erro' => 'Erro ao tentar obter as tarefas',
-                'db_error' => $db->conn->error,  
+                'db_error' => $db->conn->error,
                 'res_type' => gettype($res),
                 'res_value' => var_export($res, true)
             ]);

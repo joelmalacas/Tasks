@@ -50,6 +50,7 @@ function LoginPage({ onLogin }) {
             const data = await r.json();
             if (r.ok && data.Success) {
                 sessionStorage.setItem('user', JSON.stringify(data.User));
+                sessionStorage.setItem('token', data.Token);
                 onLogin(data.User);
             } else {
                 setError(data.Error || 'Credenciais inválidas');
@@ -155,23 +156,27 @@ function TaskCard({ task, onDelete, onStatusChange }) {
 }
 
 // ── NEW TASK MODAL ─────────────────────────────────────────────────
-function NewTaskModal({ userId, onClose, onCreated }) {
-    const [nome, setNome]   = useState('');
-    const [desc, setDesc]   = useState('');
-    const [cat, setCat]     = useState('');
-    const [loading, setLoading] = useState(false);
+    function NewTaskModal({ userId, token, onClose, onCreated }) {
+        const [nome, setNome]   = useState('');
+        const [desc, setDesc]   = useState('');
+        const [cat, setCat]     = useState('');
+        const [loading, setLoading] = useState(false);
 
-    const submit = async () => {
-        if (!nome.trim()) return;
-        setLoading(true);
-        try {
-            const params = new URLSearchParams({ user_id: userId, nome, descricao: desc, categoria: cat });
-            const r = await fetch(`${API_TASKS}/CREATETASK?${params}`, { method: 'POST' });
-            if (r.ok) { showToast('Tarefa criada!'); onCreated(); }
-            else showToast('Erro ao criar tarefa', 'error');
-        } catch { showToast('Sem ligação ao servidor', 'error'); }
-        setLoading(false);
-    };
+        const submit = async () => {
+            if (!nome.trim()) return;
+            setLoading(true);
+            try {
+                const params = new URLSearchParams({ user_id: userId, nome, descricao: desc, categoria: cat });
+                // 2️⃣ Adiciona o header Authorization
+                const r = await fetch(`${API_TASKS}/CREATETASK?${params}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (r.ok) { showToast('Tarefa criada!'); onCreated(); }
+                else showToast('Erro ao criar tarefa', 'error');
+            } catch { showToast('Sem ligação ao servidor', 'error'); }
+            setLoading(false);
+        };
 
     return React.createElement('div', { className: 'overlay', onClick: e => e.target === e.currentTarget && onClose() },
         React.createElement('div', { className: 'modal' },
@@ -208,12 +213,17 @@ function App() {
     const [filter, setFilter]     = useState('todas');
     const [search, setSearch]     = useState('');
     const [showModal, setShowModal] = useState(false);
+    const token = sessionStorage.getItem('token');
+
+    const authHeaders = {
+        'Authorization': `Bearer ${token}`
+    };
 
     const fetchTasks = useCallback(async () => {
         if (!user) return;
         setLoading(true);
         try {
-            const r = await fetch(`${API_TASKS}/TASKS?user_id=${user.id}`);
+            const r = await fetch(`${API_TASKS}/TASKS?user_id=${user.id}`, {headers: authHeaders});
             const data = await r.json();
             setTasks(Array.isArray(data) ? data : []);
         } catch {
@@ -229,6 +239,7 @@ function App() {
 
     const handleLogout = () => {
         sessionStorage.removeItem('user');
+        sessionStorage.removeItem('token');
         setUser(null);
         setTasks([]);
     };
@@ -236,7 +247,7 @@ function App() {
     const handleDelete = async id => {
         if (!confirm('Eliminar esta tarefa?')) return;
         try {
-            const r = await fetch(`${API_TASKS}/DELETETASK?id=${id}`, { method: 'DELETE' });
+            const r = await fetch(`${API_TASKS}/DELETETASK?id=${id}`, { method: 'DELETE', headers: authHeaders });
             if (r.ok) { showToast('Tarefa eliminada'); setTasks(t => t.filter(x => x.id !== id)); }
             else showToast('Erro ao eliminar', 'error');
         } catch { showToast('Sem ligação', 'error'); }
@@ -244,7 +255,7 @@ function App() {
 
     const handleStatusChange = async (id, estado) => {
         try {
-            const r = await fetch(`${API_TASKS}/UPDATETASK?id=${id}&estado=${encodeURIComponent(estado)}`, { method: 'PUT' });
+            const r = await fetch(`${API_TASKS}/UPDATETASK?id=${id}&estado=${encodeURIComponent(estado)}`, { method: 'PUT', headers: authHeaders });
             if (r.ok) { showToast('Estado atualizado'); setTasks(t => t.map(x => x.id === id ? { ...x, estado } : x)); }
             else showToast('Erro ao atualizar', 'error');
         } catch { showToast('Sem ligação', 'error'); }
@@ -329,9 +340,12 @@ function App() {
 
         showModal && React.createElement(NewTaskModal, {
             userId: user.id,
+            token: token,
             onClose: () => setShowModal(false),
             onCreated: () => { setShowModal(false); fetchTasks(); }
         })
+
+
     );
 }
 
