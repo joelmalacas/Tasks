@@ -1,8 +1,10 @@
 <?php
     include "DataBase.php";
     include "EnvCors.php";
+    include "Auth.php";
 
     $EnvCors = new EnvCors();
+    $Auth = new Auth();
 
     $EnvCors->loadCors();
 
@@ -27,6 +29,8 @@
 
     //TODO ENDPOINT PARA LISTAR TAREFA
     if (str_ends_with($uri, '/TASKS')) {
+        $auth_user_id = $Auth->validateToken($db);
+
         $user_id = $_GET['user_id'];
 
         if (!$user_id) {
@@ -44,15 +48,17 @@
             //echo json_encode('Erro ao tentar obter as tarefas');
             echo json_encode([
                 'erro' => 'Erro ao tentar obter as tarefas',
-                'db_error' => $db->conn->error,       // erro do mysqli
-                'res_type' => gettype($res),           // o que veio no $res
-                'res_value' => var_export($res, true)  // valor exato
+                'db_error' => $db->conn->error,  
+                'res_type' => gettype($res),
+                'res_value' => var_export($res, true)
             ]);
         }
     }
 
     //TODO ENDPOINT PARA CRIAR TAREFA
     if (str_ends_with($uri, '/CREATETASK') && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
+        $auth_user_id = $Auth->validateToken($db);
+
         //Add param URL
         $user_id = $_GET['user_id'];
         $nome = $_GET['nome'] ?? null;
@@ -75,6 +81,8 @@
 
     //TODO ENDPOINT PARA EDITAR STATUS TAREFA
     if (str_ends_with($uri, '/UPDATETASK') && ($_SERVER['REQUEST_METHOD'] === 'PUT')) {
+        $auth_user_id = $Auth->validateToken($db);
+
         $id = $_GET['id'];
         $estado = $_GET['estado'];
 
@@ -94,6 +102,8 @@
 
     //TODO ENDPOINT PARA REMOVER TAREFA
     if (str_ends_with($uri, '/DELETETASK') && ($_SERVER['REQUEST_METHOD'] === 'DELETE')) {
+        $auth_user_id = $Auth->validateToken($db);
+
         //Add param URL
         $id = $_GET['id'];
 

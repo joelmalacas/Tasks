@@ -1,8 +1,10 @@
 <?php
     include "DataBase.php";
     include "EnvCors.php";
+    include "Auth.php";
 
     $EnvCors = new EnvCors();
+    $Auth = new Auth();
 
     $host    = $EnvCors->getHost();
     $port    = $EnvCors->getPort();
@@ -66,25 +68,28 @@
             }
 
             if ($loginOk) {
+                //Create Barrer Token
+                $token = $Auth->token($db, $user['id']);
+
                 http_response_code(200);
                 echo json_encode([
                     'Success' => true,
                     'Message' => 'Login efetuado com sucesso.',
-                    'User' => [
-                        'id' => $user['id'],
+                    'Token'   => $token,
+                    'User'    => [
+                        'id'       => $user['id'],
                         'username' => $user['username'],
-                        'email' => $user['email']
+                        'email'    => $user['email']
                     ]
                 ]);
-                exit;
             } else {
                 http_response_code(401);
                 echo json_encode(['Error' => 'Crendenciais inválidas']);
-                exit;
+
             }
         } else {
             http_response_code(401);
             echo json_encode(['Error' => 'Utilizador não encontrado']);
-            exit;
         }
+        exit;
     }
