@@ -16,17 +16,17 @@ class DataBase {
         $this->db = $db;
     }
 
-    function connDB() {
-        //Ativa excepções no mysqli
+    function connDB() : bool{
+        //Ativa exceções no mysqli
         mysqli_report(MYSQLI_REPORT_STRICT);
 
         try {
             $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
-            return true;
         } catch (Exception $e) {
             echo json_encode('Connect DB Failed: ' . $e->getMessage());
             return false;
         }
+        return true;
     }
 
     function TestDB(): bool {
