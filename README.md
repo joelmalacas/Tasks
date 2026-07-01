@@ -198,5 +198,3 @@ DB_NAME=
 
 - As passwords são guardadas com hash **SHA-256** (recomenda-se migrar para `password_hash()` com bcrypt em produção).
 - Os parâmetros das tarefas são passados via **query string** — em produção, considera usar o body do request para dados sensíveis.
-<<<<<<< HEAD
->>>>>>> f8e06a2aa3e3d001e04e491793fe12532cc4745a
